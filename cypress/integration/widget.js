@@ -131,6 +131,17 @@ const testConfig = [
         sentence:
           'In 2010, {location} had {extent} of tree cover, extending over {percentage} of its land area. In {year}, it lost {loss} of tree cover.',
       },
+      {
+        only: true,
+        slug: 'my slug',
+        description: 'Tree cover loss',
+        visit:
+          '/embed/widget/treeLossPct/country/IDN/1/?location=WyJjb3VudHJ5IiwiSUROIiwiMSJd&widget=treeLossPct',
+        test: 'sentence-treeLossPct',
+        chart: '.recharts-wrapper',
+        sentence:
+          'From 2002 to 2019, Aceh lost 267kha of humid primary forest, making up 40% of its total tree cover loss in the same time period. Total area of humid primary forest in Aceh decreased by 7.9% in this time period.',
+      },
     ],
     spec: {
       test: (sheet) => {
@@ -138,9 +149,19 @@ const testConfig = [
           timeout: 100000,
           retryOnStatusCodeFailure: true,
         });
+
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000);
+
         cy.isValidSentence(sheet.test, sheet.sentence);
+
+        if ('chart' in sheet) {
+          cy.get(sheet.chart).toMatchImageSnapshot({
+            imageConfig: {
+              threshold: 0.001,
+            },
+          });
+        }
       },
     },
   },

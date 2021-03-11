@@ -7,6 +7,10 @@
       "url": "/api/__coverage__"
     }
   },
+  "ignoreTestFiles": [
+    "**/__snapshots__/*",
+    "**/__image_snapshots__/*"
+  ],
   "lighthouse": {
     "performance": 0,
     "accessibility": 50,
