@@ -305,13 +305,12 @@ export default {
         })
           .then((response) => {
             const { data } = response.data || {};
-
             return {
               alerts: data,
               settings: {
                 startDate:
                   data && data.length > 0 && data[data.length - 1].alert__date,
-                endDate: latest,
+                endDate: latest
               },
             };
           })

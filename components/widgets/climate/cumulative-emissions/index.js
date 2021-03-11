@@ -34,7 +34,7 @@ export default {
     },
   ],
   refetchKeys: ['variable'],
-  visible: ['dashboard', 'analysis'],
+  visible: ['dashboard'],
   datasets: [
     {
       dataset: POLITICAL_BOUNDARIES_DATASET,

@@ -1,18 +1,19 @@
 @import '~styles/settings';
 
 .theme-button-inline {
-   color: $green-gfw;
-   display: inline;
-   height: unset;
-   width: unset;
-   border-radius: unset;
-   padding: unset;
-   background: unset;
-   font-size: inherit;
-   text-transform: inherit;
-   font-weight: inherit;
-   &:hover {
-     background: inherit;
-     color: $dark-green;
-   }
+  color: $green-gfw;
+  display: inline;
+  height: unset;
+  width: unset;
+  border-radius: unset;
+  padding: unset;
+  background: unset;
+  font-size: inherit;
+  text-transform: inherit;
+  font-weight: inherit;
+
+  &:hover {
+    background: inherit;
+    color: $dark-green;
+  }
 }

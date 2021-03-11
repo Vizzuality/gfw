@@ -7,16 +7,16 @@ import sortBy from 'lodash/sortBy';
 
 import { getChartConfig } from 'components/widgets/utils/data';
 
-const getAlerts = state => state.data && state.data.alerts;
-const getColors = state => state.colors || null;
-const getStartDate = state => state.settings.startDate;
-const getEndDate = state => state.settings.endDate;
-const getSentences = state => state.sentences || null;
-const getLocationObject = state => state.location;
-const getOptionsSelected = state => state.optionsSelected;
-const getIndicator = state => state.indicator;
-const getStartIndex = state => state.settings.startIndex;
-const getEndIndex = state => state.settings.endIndex || null;
+const getAlerts = (state) => state.data?.data || null;
+const getColors = (state) => state.colors || null;
+const getStartDate = (state) => state.settings.startDate;
+const getEndDate = (state) => state.settings.endDate;
+const getSentences = (state) => state.sentences || null;
+const getLocationObject = (state) => state.location;
+const getOptionsSelected = (state) => state.optionsSelected;
+const getIndicator = (state) => state.indicator;
+const getStartIndex = (state) => state.settings.startIndex;
+const getEndIndex = (state) => state.settings.endIndex || null;
 
 const zeroFillDays = (startDate, endDate) => {
   const start = moment(startDate);
@@ -25,7 +25,7 @@ const zeroFillDays = (startDate, endDate) => {
 
   return [
     startDate,
-    ...dates.map(() => start.add(1, 'days').format('YYYY-MM-DD'))
+    ...dates.map(() => start.add(1, 'days').format('YYYY-MM-DD')),
   ];
 };
 
@@ -34,13 +34,12 @@ export const getData = createSelector(
   (data, startDate, endDate) => {
     if (!data || isEmpty(data)) return null;
 
-    const zeroFilledData = zeroFillDays(startDate, endDate).map(date => ({
+    const zeroFilledData = zeroFillDays(startDate, endDate).map((date) => ({
       date,
       alert__count: 0,
       count: 0,
-      ...data.find(d => d.alert__date === date)
+      ...data.find((d) => d.alert__date === date),
     }));
-
     return sortBy(zeroFilledData, 'date');
   }
 );
@@ -51,17 +50,21 @@ export const getStartEndIndexes = createSelector(
     if (!currentData) {
       return {
         startIndex,
-        endIndex
+        endIndex,
       };
     }
 
     const start =
       startIndex || startIndex === 0 ? startIndex : currentData.length - 365;
-    const end = endIndex || currentData.length - 1;
+
+    const end =
+      endIndex && currentData.length - 1 >= endIndex
+        ? endIndex
+        : currentData.length - 1;
 
     return {
       startIndex: start,
-      endIndex: end
+      endIndex: end,
     };
   }
 );
@@ -85,24 +88,24 @@ export const parseConfig = createSelector(
 
     const tooltip = [
       {
-        label: 'Fire alerts'
+        label: 'GLAD alerts',
       },
       {
         key: 'count',
         labelKey: 'date',
-        labelFormat: value => moment(value).format('MMM DD YYYY'),
-        unit: ' VIIRS alerts',
+        labelFormat: (value) => moment(value).format('MMM DD YYYY'),
+        unit: ' GLAD alerts',
         color: colors.main,
-        unitFormat: value =>
-          (Number.isInteger(value) ? format(',')(value) : value)
-      }
+        unitFormat: (value) =>
+          Number.isInteger(value) ? format(',')(value) : value,
+      },
     ];
 
     return {
       ...getChartConfig(colors),
       tooltip,
       xAxis: {
-        tickFormatter: t => moment(t).format('MMM DD, YY')
+        tickFormatter: (t) => moment(t).format('MMM DD, YY'),
       },
       brush: {
         width: '100%',
@@ -111,7 +114,7 @@ export const parseConfig = createSelector(
           top: 0,
           right: 10,
           left: 48,
-          bottom: 12
+          bottom: 12,
         },
         minimumGap: 30,
         maximumGap: 0,
@@ -123,34 +126,34 @@ export const parseConfig = createSelector(
             top: 5,
             right: 0,
             left: 42,
-            bottom: 20
+            bottom: 20,
           },
           yKeys: {
             lines: {
               count: {
                 stroke: colors.main,
-                isAnimationActive: false
+                isAnimationActive: false,
               },
               compareCount: {
                 stroke: '#49b5e3',
-                isAnimationActive: false
-              }
-            }
+                isAnimationActive: false,
+              },
+            },
           },
           xAxis: {
             hide: true,
-            scale: 'point'
+            scale: 'point',
           },
           yAxis: {
-            hide: true
+            hide: true,
           },
           cartesianGrid: {
             horizontal: false,
-            vertical: false
+            vertical: false,
           },
-          height: 60
-        }
-      }
+          height: 60,
+        },
+      },
     };
   }
 );
@@ -162,12 +165,12 @@ export const parseSentence = createSelector(
     getSentences,
     getLocationObject,
     getOptionsSelected,
-    getIndicator
+    getIndicator,
   ],
   (data, colors, sentences, location, options, indicator) => {
     if (!data || !data.length) return null;
-    const { initial, withInd, highConfidence } = sentences;
-    const { confidence, dataset } = options;
+    const { initial, withInd } = sentences;
+    const { dataset } = options;
     const indicatorLabel =
       indicator && indicator.label ? indicator.label : null;
 
@@ -175,11 +178,7 @@ export const parseSentence = createSelector(
     const endDate = data[data.length - 1].date;
     const total = sumBy(data, 'alert__count');
 
-    let sentence = indicator ? withInd : initial;
-    sentence =
-      confidence && confidence.value === 'h'
-        ? sentence + highConfidence
-        : `${sentence}.`;
+    const sentence = indicator ? withInd : initial;
 
     const params = {
       location: location.label || '',
@@ -189,8 +188,8 @@ export const parseSentence = createSelector(
       dataset: dataset && dataset.label,
       total_alerts: {
         value: total ? format(',')(total) : 0,
-        color: colors.main
-      }
+        color: colors.main,
+      },
     };
     return { sentence, params };
   }
@@ -200,5 +199,5 @@ export default createStructuredSelector({
   originalData: getData,
   data: parseBrushedData,
   config: parseConfig,
-  sentence: parseSentence
+  sentence: parseSentence,
 });

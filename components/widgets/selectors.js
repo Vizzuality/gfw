@@ -435,6 +435,7 @@ export const getWidgets = createSelector(
         ...decodeParams,
         ...(startYear && {
           startYear,
+          startIndex: 0,
         }),
         ...(endYear && {
           endYear,
@@ -517,11 +518,9 @@ export const getWidgets = createSelector(
         statements: footerStatements,
         lang,
       };
-
       const parsedProps = props.getWidgetProps && props.getWidgetProps(props);
       const { title: parsedTitle } = parsedProps || {};
       const title = parsedTitle || titleTemplate;
-
       const downloadLink =
         props.getDownloadLink &&
         props.getDownloadLink({ ...props, ...parsedProps });

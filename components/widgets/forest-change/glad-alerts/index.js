@@ -64,7 +64,7 @@ export default {
   },
   metaKey: 'widget_deforestation_graph',
   large: true,
-  visible: ['dashboard', 'analysis'],
+  visible: ['dashboard'],
   colors: 'loss',
   chartType: 'composedChart',
   source: 'gadm',
