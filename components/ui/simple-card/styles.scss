@@ -1,0 +1,36 @@
+@import '~styles/settings.scss';
+
+.c-simple-card {
+  position: relative;
+  background-color: $grey-light;
+  border: solid 1px $border;
+  overflow: hidden;
+  padding: 30px;
+
+  .simple-card-image {
+    height: 220px;
+    object-position: center;
+    object-fit: cover;
+  }
+
+  .simple-card-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h3,
+    p {
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      font-size: 30px;
+    }
+
+    p {
+      color: $slate;
+    }
+  }
+}

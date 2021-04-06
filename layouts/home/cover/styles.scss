@@ -1,0 +1,74 @@
+@import '~styles/settings.scss';
+
+.c-home-cover {
+  position: relative;
+
+  h1,
+  p {
+    z-index: 1;
+  }
+
+  .stop-video-btn {
+    z-index: 1;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba($slate, 0.7);
+  }
+
+  .subscribe-link {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-top: rem(20px);
+    width: fit-content;
+
+    .subscribe-btn {
+      margin-right: rem(10px);
+    }
+
+    .subscribe-msg {
+      color: $white;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+  }
+
+  .home-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    overflow: hidden;
+    z-index: 0;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    > div {
+      position: absolute;
+      top: rem(-60px);
+      left: 0;
+      right: 0;
+      bottom: rem(-60px);
+      height: calc(100% + 120px);
+    }
+
+    &.-show {
+      opacity: 1;
+    }
+  }
+}

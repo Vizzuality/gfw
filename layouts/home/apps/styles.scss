@@ -1,0 +1,120 @@
+@import '~styles/settings.scss';
+
+.c-home-apps {
+  position: relative;
+
+  h2 {
+    color: rgba($white, 0.5);
+    font-size: 18px;
+    position: absolute;
+    top: 50px;
+    z-index: 1;
+    left: $mobile-gutter;
+    text-transform: uppercase;
+
+    @media screen and (min-width: $screen-m) {
+      left: $desktop-gutter;
+    }
+
+    @media screen and (min-width: 1120px) {
+      left: calc(((100% - #{$screen-xl}) / 2));
+    }
+  }
+
+  .apps-carousel {
+    margin: 0;
+    width: 100%;
+
+    .slick-slide {
+      padding: 0;
+      opacity: 1;
+
+      a {
+        height: 100%;
+      }
+    }
+
+    .slick-arrow {
+      background-color: rgba($white, 0.5);
+    }
+
+    .slick-next {
+      right: 5px;
+
+      @media screen and (min-width: $screen-m) {
+        right: $desktop-gutter;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        right: calc(((100% - #{$screen-xl}) / 2) + #{$desktop-gutter});
+      }
+    }
+
+    .slick-prev {
+      left: 5px;
+
+      @media screen and (min-width: $screen-m) {
+        left: $desktop-gutter;
+      }
+
+      @media screen and (min-width: $screen-xl) {
+        left: calc(((100% - #{$screen-xl}) / 2) + #{$desktop-gutter});
+      }
+    }
+  }
+
+  .app-slide {
+    cursor: pointer;
+    display: block;
+    padding: 150px 0 0;
+    text-align: center;
+    color: $white;
+    height: 100%;
+
+    h3 {
+      font-size: 35px;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: $white;
+      margin: auto;
+      margin-bottom: 350px;
+      font-size: 18px;
+      max-width: 700px;
+    }
+
+    .app-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      height: 100%;
+    }
+
+    .app-image {
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+      height: 350px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .app-icon {
+      height: 40px;
+      width: auto;
+
+      &.pro {
+        width: 75px;
+        height: 75px;
+      }
+    }
+  }
+}

@@ -32,7 +32,7 @@ $desktop-padding: rem(40px);
     margin: rem(50px) 0 rem(10px) 0;
 
     p {
-      font-size: $font-size-s;
+      font-size: 13px;
       color: #aaa;
     }
 
@@ -47,12 +47,12 @@ $desktop-padding: rem(40px);
         margin-right: rem(10px);
       }
     }
-
   }
 
   .guide-btn {
     text-align: left;
     cursor: pointer;
+
     &:hover {
       text-decoration: underline;
     }
@@ -75,7 +75,6 @@ $desktop-padding: rem(40px);
 
     &:first-child { margin-left: 0; }
     &:last-child { margin-right: 0; }
-
   }
 
   .map-tour-thumbnail {

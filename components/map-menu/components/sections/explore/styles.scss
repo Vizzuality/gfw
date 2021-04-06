@@ -17,7 +17,7 @@ $explore-nav-height: rem(40px);
       p {
         font-size: 12px;
         line-height: 1.6;
-        margin: rem(10px) 0;
+        margin: rem(10px) 0 30px;
       }
 
       a {
@@ -39,14 +39,7 @@ $explore-nav-height: rem(40px);
     }
 
     .map-card {
-      // margin-bottom: rem(30px);
+      margin-bottom: rem(30px);
     }
-  }
-
-  .column,
-  .columns {
-    padding-right: rem(15px);
-    padding-left: rem(15px);
-    margin-bottom: rem(30px);
   }
 }

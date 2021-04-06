@@ -4,6 +4,8 @@ import cx from 'classnames';
 import Link from 'next/link';
 import { trackEvent } from 'utils/analytics';
 
+import { Row, Column } from 'gfw-components';
+
 import Dropdown from 'components/ui/dropdown';
 import Loader from 'components/ui/loader';
 import Icon from 'components/ui/icon';
@@ -207,8 +209,8 @@ class Header extends PureComponent {
             })}
           </div>
         )}
-        <div className="row">
-          <div className="columns small-12 medium-10">
+        <Row>
+          <Column width={[1, 5 / 6]}>
             <div className="select-container">
               {isAreaDashboard && (
                 <Link
@@ -331,9 +333,9 @@ class Header extends PureComponent {
                   />
                 )}
             </div>
-          </div>
+          </Column>
           {!loading && activeArea && activeArea.userArea && (
-            <div className="columns small-12 medium-10">
+            <Column width={[1, 5 / 6]}>
               <div className="metadata">
                 {tags && !!tags.length && (
                   <div className="tags">
@@ -350,9 +352,9 @@ class Header extends PureComponent {
                   </div>
                 )}
               </div>
-            </div>
+            </Column>
           )}
-          <div className="columns small-12 medium-10">
+          <Column width={[1, 5 / 6]}>
             <div className="description text -title-xs">
               {!loading && (
                 <div>
@@ -381,8 +383,8 @@ class Header extends PureComponent {
                 </div>
               )}
             </div>
-          </div>
-        </div>
+          </Column>
+        </Row>
         <AreaOfInterestModal viewAfterSave />
       </div>
     );

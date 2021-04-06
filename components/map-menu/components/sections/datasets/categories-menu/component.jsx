@@ -32,9 +32,7 @@ class CategoriesMenu extends PureComponent {
                   )}
                   <Icon icon={c.icon} />
                 </Button>
-                <span className="category-item-label">
-                  {c.label}
-                </span>
+                <span className="category-item-label">{c.label}</span>
               </div>
             </Column>
           ))}

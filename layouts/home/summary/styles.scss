@@ -1,0 +1,23 @@
+@import '~styles/settings.scss';
+
+.c-home-summary {
+  padding: 20px 0 20px;
+  position: relative;
+
+  @media screen and (min-width: $screen-m) {
+    padding: 40px 0 20px;
+  }
+
+  .scroll-to-btn {
+    position: absolute;
+    top: -20px;
+    left: calc(50% - 20px);
+    z-index: 1;
+  }
+
+  .summary-card {
+    height: 100%;
+    min-height: 400px;
+    display: table;
+  }
+}

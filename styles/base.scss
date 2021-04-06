@@ -1,24 +1,89 @@
 @import '~styles/settings.scss';
 
+html,
 body {
-  position: unset !important;
-  padding: 0;
-  margin: 0;
   font-family: $font-family-1;
-  font-weight: normal;
-  line-height: 1.5;
-  font-size: rem(18px);
-  color: $slate;
-  background: transparent;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: $slate-light;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
 }
 
-*[draggable="true"] {
-  cursor: move;
-  cursor: grab;
+* {
+  font-family: inherit;
 
-  &:active {
-    cursor: grabbing;
+  &:focus {
+    outline: none;
   }
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 60px;
+
+  @media screen and (min-width: $screen-m) {
+    font-size: 60px;
+    line-height: 70px;
+  }
+}
+
+h2 {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 300;
+
+  @media screen and (min-width: $screen-m) {
+    font-size: 48px;
+    line-height: 55px;
+  }
+}
+
+h3 {
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: 300;
+
+  @media screen and (min-width: $screen-m) {
+    font-size: 36px;
+  }
+}
+
+h4 {
+  line-height: 24px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+}
+
+p,
+a {
+  font-size: 16px;
+  line-height: 24px;
+
+  @media screen and (min-width: $screen-m) {
+    line-height: 30px;
+    font-size: 18px;
+  }
+}
+
+a {
+  color: $green-gfw;
+
+  &:hover {
+    color: $dark-green;
+    text-decoration: underline;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  appearance: none;
 }

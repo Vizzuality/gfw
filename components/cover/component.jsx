@@ -1,4 +1,3 @@
-import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -6,42 +5,36 @@ import { Row, Column } from 'gfw-components';
 
 import './styles.scss';
 
-class Cover extends PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-  render() {
-    const {
-      bgImage,
-      large,
-      className,
-      title,
-      description,
-      children,
-    } = this.props;
-    const bgStyle = bgImage ? { backgroundImage: `url('${bgImage}'` } : {};
-
-    return (
-      <div className={cx('c-cover', { large }, className)} style={bgStyle}>
-        <Row>
-          <Column width={[1, 2 / 3]}>
-            <div className="cover-texts">
-              <h1
-                className={cx('cover-title', { '-with-background': !!bgImage })}
-              >
-                {title}
-              </h1>
-              {Array.isArray(description) ? (
-                <div className="description">{description}</div>
-              ) : (
-                <p className="description">{description}</p>
-              )}
-            </div>
-            {children}
-          </Column>
-        </Row>
-      </div>
-    );
-  }
-}
+const Cover = ({
+  className,
+  title,
+  description,
+  bgImage,
+  bgAlt,
+  large,
+  children,
+}) => (
+  <div className={cx('c-cover', { '-large': large }, className)}>
+    <img
+      className="cover-background-img"
+      src={bgImage}
+      alt={bgAlt || 'cover background image'}
+    />
+    <Row>
+      <Column width={[1, 2 / 3]} className="cover-wrapper">
+        <h1 className={cx('cover-title', { '-with-background': !!bgImage })}>
+          {title}
+        </h1>
+        {Array.isArray(description) ? (
+          <div>{description}</div>
+        ) : (
+          <p>{description}</p>
+        )}
+        {children}
+      </Column>
+    </Row>
+  </div>
+);
 
 Cover.propTypes = {
   className: PropTypes.string,
@@ -49,6 +42,7 @@ Cover.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   large: PropTypes.bool,
   bgImage: PropTypes.string,
+  bgAlt: PropTypes.string,
   children: PropTypes.node,
 };
 

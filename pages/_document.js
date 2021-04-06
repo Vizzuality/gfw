@@ -27,6 +27,11 @@ export default class MyDocument extends Document {
           />
 
           <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap"
+            rel="stylesheet"
+          />
+
+          <link
             rel="apple-touch-icon"
             sizes="180x180"
             href="/favicon/apple-touch-icon.png"

@@ -2,19 +2,17 @@
 @import '~styles/utils.scss';
 
 $font-family-1: 'Fira Sans', sans-serif;
-$font-size-xs: rem(12px);
-$font-size-s: rem(13px);
 
 /* SCREENS */
-$screen-s: 20rem;
-$screen-m: 48rem;
-$screen-l: 64rem;
-$screen-xl: 70rem;
+$screen-s: 320px;
+$screen-m: 768px;
+$screen-l: 1024px;
+$screen-xl: 1080px;
 
 /* GRID SETTINGS */
-$max-width: 70rem;
-$desktop-gutter: 1.25rem;
-$mobile-gutter: 1rem;
+$max-width: 1080px;
+$desktop-gutter: 20px;
+$mobile-gutter: 16px;
 $header-height: 58px;
 
 /* COLORS */

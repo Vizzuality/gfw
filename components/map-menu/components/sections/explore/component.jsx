@@ -4,6 +4,8 @@ import isEqual from 'lodash/isEqual';
 import { trackEvent } from 'utils/analytics';
 import ReactHtmlParser from 'react-html-parser';
 
+import { Row, Column } from 'gfw-components';
+
 import SubnavMenu from 'components/subnav-menu';
 import Dropdown from 'components/ui/dropdown';
 import Card from 'components/ui/card';
@@ -23,7 +25,7 @@ class Explore extends PureComponent {
       mapState,
       loading,
       ptwType,
-      setMapPromptsSettings
+      setMapPromptsSettings,
     } = this.props;
     const links = [
       {
@@ -34,9 +36,9 @@ class Explore extends PureComponent {
           trackEvent({
             category: 'Map menu',
             action: 'Select explore category',
-            label: 'Topics'
-          })
-        }
+            label: 'Topics',
+          });
+        },
       },
       {
         label: 'Places to Watch',
@@ -46,9 +48,9 @@ class Explore extends PureComponent {
           trackEvent({
             category: 'Map menu',
             action: 'Select explore category',
-            label: 'Places to watch'
-          })
-        }
+            label: 'Places to watch',
+          });
+        },
       },
       {
         label: 'Stories',
@@ -58,10 +60,10 @@ class Explore extends PureComponent {
           trackEvent({
             category: 'Map menu',
             action: 'Select explore category',
-            label: 'Stories'
-          })
-        }
-      }
+            label: 'Stories',
+          });
+        },
+      },
     ];
 
     return (
@@ -72,8 +74,8 @@ class Explore extends PureComponent {
           theme="theme-subnav-small-light"
         />
         <div className="content">
-          <div className="row">
-            <div className="column small-12">
+          <Row>
+            <Column>
               <div className="description">
                 {section === 'placesToWatch' ? (
                   <Fragment>
@@ -86,22 +88,22 @@ class Explore extends PureComponent {
                       options={[
                         {
                           label: 'All Places to Watch',
-                          value: 'all'
+                          value: 'all',
                         },
                         {
                           label: 'Mongabay reporting',
-                          value: 'mongabay'
+                          value: 'mongabay',
                         },
                         {
                           label: 'Soy',
-                          value: 'soy'
+                          value: 'soy',
                         },
                         {
                           label: 'Oil palm',
-                          value: 'palm'
-                        }
+                          value: 'palm',
+                        },
                       ]}
-                      onChange={value => setMenuSettings({ ptwType: value })}
+                      onChange={(value) => setMenuSettings({ ptwType: value })}
                       native
                     />
                     <PTWProvider />
@@ -110,21 +112,21 @@ class Explore extends PureComponent {
                   <p>{description}</p>
                 )}
               </div>
-            </div>
+            </Column>
             {!loading &&
               data &&
-              data.map(item => (
-                <div
+              data.map((item) => (
+                <Column
                   key={item.slug || item.id}
-                  className="column small-12 medium-6"
+                  width={[1, 1 / 2]}
+                  className="map-card"
                 >
                   <Card
-                    className="map-card"
                     theme="theme-card-small"
                     clamp={5}
                     data={{
                       ...item,
-                      buttons: item.buttons.map(b => ({
+                      buttons: item.buttons.map((b) => ({
                         ...b,
                         ...(b.text === 'VIEW ON MAP' && {
                           onClick: () => {
@@ -132,23 +134,23 @@ class Explore extends PureComponent {
                             setMapPromptsSettings({
                               open: true,
                               stepIndex: 0,
-                              stepsKey: `topics${item.title}`
+                              stepsKey: `topics${item.title}`,
                             });
                             trackEvent({
                               category: 'Map data',
                               action: 'User loads a topic',
-                              label: item.title
-                            })
-                          }
-                        })
-                      }))
+                              label: item.title,
+                            });
+                          },
+                        }),
+                      })),
                     }}
                     active={isEqual(item.payload.map, mapState)}
                   />
-                </div>
+                </Column>
               ))}
             {loading && <Loader />}
-          </div>
+          </Row>
         </div>
       </div>
     );
@@ -164,7 +166,7 @@ Explore.propTypes = {
   loading: PropTypes.bool,
   handleViewOnMap: PropTypes.func,
   ptwType: PropTypes.string,
-  setMapPromptsSettings: PropTypes.func
+  setMapPromptsSettings: PropTypes.func,
 };
 
 export default Explore;

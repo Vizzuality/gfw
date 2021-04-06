@@ -3,68 +3,50 @@
 .c-cover {
   position: relative;
   padding: 50px 0 60px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: $slate-light;
+  overflow: hidden;
 
   @media screen and (min-width: $screen-m) {
     padding: 70px 0;
   }
 
-  .cover-texts {
+  .cover-background-img {
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .cover-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     z-index: 1;
-    position: relative;
+    color: $white;
 
-    .cover-title {
-      margin: 0 0 15px 0;
-      font-size: 48px;
-      line-height: 55px;
-      font-weight: 300;
-      color: $white;
+    h1 {
+      margin-bottom: 15px;
 
       @media screen and (min-width: $screen-m) {
-        margin: 0 0 20px 0;
+        margin-bottom: 20px;
       }
-
-      &.-with-background {
-        font-weight: 400;
-      }
-    }
-
-    .description,
-    p {
-      font-size: 18px;
-      line-height: 30px;
-      max-width: rem(768px);
-      color: $white;
     }
   }
 
-  &.large {
-    padding: rem(60px) 0 rem(80px);
-
-    h1 {
-      font-size: rem(40px);
-    }
+  &.-large {
+    padding: 60px 0 80px;
 
     @media screen and (min-width: $screen-m) {
-      padding: rem(100px) 0 rem(120px);
-
-      h1 {
-        font-size: rem(50px);
-      }
+      padding: 100px 0 120px;
     }
 
     @media screen and (min-width: $screen-l) {
-      padding: rem(160px) 0 rem(180px);
-
-      h1 {
-        font-size: rem(60px);
-      }
+      padding: 160px 0 180px;
     }
   }
 }

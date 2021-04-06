@@ -6,6 +6,8 @@ import slice from 'lodash/slice';
 import { Tooltip } from 'react-tippy';
 import { deburrUpper } from 'utils/strings';
 
+import { Row, Column } from 'gfw-components';
+
 import Tip from 'components/ui/tip';
 import Icon from 'components/ui/icon';
 import Button from 'components/ui/button';
@@ -130,8 +132,8 @@ class AreasTable extends PureComponent {
 
     return (
       <div className="c-areas-table">
-        <div className="row filter-row">
-          <div className="column small-12 medium-5 filter-group">
+        <Row nested className="filter-row">
+          <Column width={[1, 5 / 12]} className="filter-group">
             {(hasSelectedTags || hasUnselectedTags) && (
               <span className="filter-title">Filter by tag</span>
             )}
@@ -175,8 +177,8 @@ class AreasTable extends PureComponent {
                 />
               )}
             </div>
-          </div>
-          <div className="column small-12 medium-4 filter-group">
+          </Column>
+          <Column width={[1, 1 / 3]} className="filter-group">
             <span className="filter-title">Order by</span>
             <div className="filter-tags">
               <Pill
@@ -213,8 +215,8 @@ class AreasTable extends PureComponent {
                 }
               /> */}
             </div>
-          </div>
-          <div className="column small-12 medium-3">
+          </Column>
+          <Column width={[1, 1 / 4]}>
             <div className="filter-search">
               <Search
                 theme="theme-search-small"
@@ -224,13 +226,13 @@ class AreasTable extends PureComponent {
                   this.setState({ search: value, pageNum: 0 })}
               />
             </div>
-          </div>
-        </div>
+          </Column>
+        </Row>
         <div>
           {areasTrimmed && !!areasTrimmed.length ? (
             areasTrimmed.map((area) => (
-              <div key={area.id} className="row area-row">
-                <div className="column small-12 medium-9">
+              <Row nested key={area.id} className="area-row">
+                <Column width={[1, 3 / 4]}>
                   <Tooltip
                     theme="light"
                     followCursor
@@ -257,8 +259,8 @@ class AreasTable extends PureComponent {
                       />
                     </div>
                   </Tooltip>
-                </div>
-                <div className="column small-12 medium-3">
+                </Column>
+                <Column width={[1, 1 / 4]}>
                   <div className="area-links">
                     <Button
                       className="area-link"
@@ -295,18 +297,18 @@ class AreasTable extends PureComponent {
                       share
                     </Button>
                   </div>
-                </div>
-              </div>
+                </Column>
+              </Row>
             ))
           ) : (
-            <div className="row no-content-row">
-              <div className="column small-12">
+            <Row nested className="no-content-row">
+              <Column>
                 <NoContent
                   className="no-areas-msg"
                   message="No areas with that search"
                 />
-              </div>
-            </div>
+              </Column>
+            </Row>
           )}
         </div>
         {orderedAreas.length > pageSize && (
