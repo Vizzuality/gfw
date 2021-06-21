@@ -3,10 +3,11 @@ import { rwRequest, dataRequest } from 'utils/request';
 // Feature env will always be "null" on production
 const featureEnv = process.env.NEXT_PUBLIC_FEATURE_ENV;
 
+// https://resource-watch.github.io/doc-api/concepts.html#pagination
 export const getDatasets = () =>
   rwRequest
     .get(
-      `/dataset?application=gfw&includes=metadata,vocabulary,layer&page[size]=9999&env=production${
+      `/dataset?application=gfw&includes=metadata,vocabulary,layer&page[size]=100&env=production${
         featureEnv ? `,${featureEnv},preproduction-staging` : ''
       }${featureEnv === 'staging' ? `&refresh=${new Date()}` : ''}`
     )
