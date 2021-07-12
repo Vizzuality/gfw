@@ -185,8 +185,9 @@ export const getServerSideProps = async ({ params, query, req }) => {
       adm0,
       adm1,
       adm2,
+      countryData,
       type: locationType,
-      category: query?.category || null,
+      category: query?.category || 'summary',
       label: label || null,
     };
 
@@ -199,7 +200,7 @@ export const getServerSideProps = async ({ params, query, req }) => {
       props: {
         title,
         description,
-        category: query?.category || null,
+        category: query?.category || 'summary',
         basePath,
         globalSentence: parsedSentence,
         handleSSRLocation,
@@ -224,21 +225,6 @@ export const getServerSideProps = async ({ params, query, req }) => {
     };
   }
 };
-
-// export const getStaticPaths = async () => {
-//   const countryData = await getCountriesProvider();
-//   const { rows: countries } = countryData?.data || {};
-//   const countryPaths = countries.map((c) => ({
-//     params: {
-//       location: ['country', c.iso],
-//     },
-//   }));
-//
-//   return {
-//     paths: ['/dashboards/global/', ...countryPaths] || [],
-//     fallback: true,
-//   };
-// };
 
 const DashboardsPage = (props) => {
   const dispatch = useDispatch();
@@ -315,9 +301,9 @@ const DashboardsPage = (props) => {
       <Head>
         <link
           rel="canonical"
-          href={`https://www.globalforestwatch.org${
-            props?.basePath || ''
-          }${`?category=${props?.category || 'global'}`}`}
+          href={`https://www.globalforestwatch.org${props?.basePath || ''}${
+            props.category ? `?category=${props?.category}` : ''
+          }`}
         />
       </Head>
       <DashboardsUrlProvider />

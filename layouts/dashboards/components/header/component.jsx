@@ -155,16 +155,42 @@ class Header extends PureComponent {
     );
   }
 
+  getCountrySelectorData() {
+    const { locationNames, adm0s, handleSSRLocation } = this.props;
+
+    return {
+      value: locationNames?.adm0 || handleSSRLocation?.adm0,
+      options:
+        adm0s?.length > 0 ? adm0s : handleSSRLocation?.countryData?.countries,
+    };
+  }
+
+  getAdm1SelectorData() {
+    const { locationNames, adm1s, handleSSRLocation } = this.props;
+
+    return {
+      value: locationNames?.adm1 || handleSSRLocation?.adm1,
+      options:
+        adm1s?.length > 0 ? adm1s : handleSSRLocation?.countryData?.regions,
+    };
+  }
+
+  getAdm2SelectorData() {
+    const { locationNames, adm2s, handleSSRLocation } = this.props;
+
+    return {
+      value: locationNames?.adm2 || handleSSRLocation?.adm2,
+      options:
+        adm2s?.length > 0 ? adm2s : handleSSRLocation?.countryData?.subRegions,
+    };
+  }
+
   render() {
     const {
       className,
-      adm0s,
-      adm1s,
-      adm2s,
       handleLocationChange,
       loading,
       setShareModal,
-      locationNames,
       shareData,
       location: runtimeLocation,
       handleSSRLocation,
@@ -206,6 +232,10 @@ class Header extends PureComponent {
 
     const displaySentence =
       !sentence || isEmpty(sentence) ? globalSentence : sentence;
+
+    const countrySelectorData = this.getCountrySelectorData();
+    const regionData = this.getAdm1SelectorData();
+    const subRegionData = this.getAdm2SelectorData();
 
     return (
       <div className={cx('c-dashboards-header', className)}>
@@ -278,38 +308,36 @@ class Header extends PureComponent {
               {title && (
                 <h3 className={cx({ global: title === 'global' })}>{title}</h3>
               )}
-              {adm0s && (
-                <Dropdown
-                  theme="theme-dropdown-dark"
-                  placeholder={`Select ${selectorMeta.typeVerb}`}
-                  noItemsFound={`No ${selectorMeta.typeName} found`}
-                  noSelectedValue={`Select ${selectorMeta.typeName}`}
-                  value={locationNames.adm0}
-                  options={adm0s}
-                  onChange={(adm0) =>
-                    handleLocationChange({ adm0: adm0 && adm0.value })}
-                  searchable
-                  disabled={loading}
-                  tooltip={{
-                    text: `Choose the ${selectorMeta.typeName} you want to explore`,
-                    delay: 1000,
-                  }}
-                  arrowPosition="left"
-                  clearable={isCountryDashboard}
-                />
-              )}
+              <Dropdown
+                theme="theme-dropdown-dark"
+                placeholder={`Select ${selectorMeta.typeVerb}`}
+                noItemsFound={`No ${selectorMeta.typeName} found`}
+                noSelectedValue={`Select ${selectorMeta.typeName}`}
+                value={countrySelectorData.value}
+                options={countrySelectorData.options}
+                onChange={(adm0) =>
+                  handleLocationChange({ adm0: adm0 && adm0.value })}
+                searchable
+                disabled={loading}
+                tooltip={{
+                  text: `Choose the ${selectorMeta.typeName} you want to explore`,
+                  delay: 1000,
+                }}
+                arrowPosition="left"
+                clearable={isCountryDashboard}
+              />
               {isCountryDashboard &&
-                location.adm0 &&
-                adm0s &&
-                adm1s &&
-                adm1s.length > 1 && (
+                countrySelectorData.value &&
+                countrySelectorData.options &&
+                regionData.options &&
+                regionData.options.length > 1 && (
                   <Dropdown
                     theme="theme-dropdown-dark"
                     placeholder="Select a region"
                     noItemsFound="No region found"
                     noSelectedValue="Select a region"
-                    value={locationNames.adm1}
-                    options={adm1s}
+                    value={regionData.value}
+                    options={regionData.options}
                     onChange={(adm1) =>
                       handleLocationChange({
                         adm0: location.adm0,
@@ -326,17 +354,17 @@ class Header extends PureComponent {
                   />
                 )}
               {isCountryDashboard &&
-                location.adm1 &&
-                adm1s &&
-                adm2s &&
-                adm2s.length > 1 && (
+                regionData.value &&
+                regionData.options &&
+                subRegionData.options &&
+                subRegionData.options.length > 1 && (
                   <Dropdown
                     theme="theme-dropdown-dark"
                     placeholder="Select a region"
                     noItemsFound="No region found"
                     noSelectedValue="Select a region"
-                    value={locationNames.adm2}
-                    options={adm2s}
+                    value={subRegionData.value}
+                    options={subRegionData.options}
                     onChange={(adm2) =>
                       handleLocationChange({
                         adm0: location.adm0,
