@@ -1,6 +1,6 @@
-import { getEmissions } from 'services/analysis-cached';
+import { getEmissions, getEmissionsLossOTF } from 'services/analysis-cached';
 
-// import OTFAnalysis from 'services/otf-analysis';
+import { shouldQueryPrecomputedTables } from 'components/widgets/utils/helpers';
 
 import biomassLossIsos from 'data/biomass-isos.json';
 
@@ -29,7 +29,7 @@ export default {
   title: 'Forest-related greenhouse gas emissions in {location}',
   large: true,
   categories: ['climate'],
-  types: ['country', 'aoi', 'use', 'wdpa'],
+  types: ['geostore', 'country', 'aoi', 'use', 'wdpa'],
   admins: ['adm0', 'adm1', 'adm2'],
   chartType: 'composedChart',
   settingsConfig: [
@@ -105,21 +105,47 @@ export default {
     adm0: biomassLossIsos,
   },
   getData: (params) => {
-    return getEmissions(params).then((response) => {
-      const loss = response.data.data;
-      const { startYear, endYear, range } = getYearsRangeFromMinMax(
-        MIN_YEAR,
-        MAX_YEAR
-      );
+    const { startYear, endYear, range } = getYearsRangeFromMinMax(
+      MIN_YEAR,
+      MAX_YEAR
+    );
+    if (shouldQueryPrecomputedTables(params)) {
+      return getEmissions(params).then((response) => {
+        const loss = response?.data?.data || [];
+
+        return {
+          loss,
+          settings: {
+            startYear,
+            endYear,
+            yearsRange: range,
+          },
+          options: {
+            years: range,
+          },
+        };
+      });
+    }
+    // Run OTF analysis
+    const geostoreId = params?.geostore?.hash;
+    return getEmissionsLossOTF({
+      ...params,
+      startYear,
+      endYear,
+      geostoreId,
+      staticStatement: {
+        // overrides tables and/or sql
+        table: 'umd_tree_cover_loss',
+      },
+    }).then((response) => {
+      const loss = response?.data?.data || [];
+
       return {
         loss,
         settings: {
           startYear,
           endYear,
           yearsRange: range,
-        },
-        options: {
-          years: range,
         },
       };
     });
