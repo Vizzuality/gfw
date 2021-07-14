@@ -36,9 +36,7 @@ class PromptTooltip extends PureComponent {
           <Icon className="step-close-btn" icon={closeIcon} />
         </button>
         <div className="step-title">
-          {`${title}${
-          size > 1 ? ` · ${index + 1}/${size}` : ''
-        }`}
+          {`${title}${size > 1 ? ` · ${index + 1}/${size}` : ''}`}
         </div>
         <div className="step-content">
           {typeof content === 'string' ? content : content}
@@ -71,7 +69,7 @@ class PromptTooltip extends PureComponent {
                 NEXT
               </button>
             )}
-            {size === 1 && (
+            {size === 1 && !step?.bypassUserDisableTips && (
               <button
                 className="show-prompts-btn"
                 onClick={() => handleShowPrompts(!showPrompts)}

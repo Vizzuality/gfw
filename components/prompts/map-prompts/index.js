@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import reducerRegistry from 'redux/registry';
 
+import { A } from 'gfw-components';
+
 import { setAnalysisSettings } from 'components/analysis/actions';
 import { setMenuSettings } from 'components/map-menu/actions';
 import { setMainMapSettings } from 'layouts/map/actions';
@@ -23,6 +25,7 @@ class MapPromptsContainer extends PureComponent {
       showPrompts,
       activeCategories,
       datasetIds,
+      shouldShowPlanetPrompt,
     } = this.props;
     const shouldOpenRecentImageryPrompt =
       showPrompts &&
@@ -40,6 +43,15 @@ class MapPromptsContainer extends PureComponent {
       (activeCategories.includes('landUse') ||
         activeCategories.includes('biodiversity') ||
         datasetIds.includes(BIOMASS_LOSS_DATASET));
+
+    if (shouldShowPlanetPrompt) {
+      setMapPromptsSettings({
+        open: true,
+        force: true,
+        stepsKey: 'planetBasemapTour',
+        stepIndex: 0,
+      });
+    }
 
     if (shouldOpenRecentImageryPrompt) {
       setMapPromptsSettings({
@@ -67,6 +79,40 @@ class MapPromptsContainer extends PureComponent {
     } = this.props;
 
     const allSteps = {
+      planetBasemapTour: {
+        title: 'Planet basemaps',
+        steps: [
+          {
+            disableBeacon: true,
+            bypassUserDisableTips: true,
+            target: '.basemaps-btn',
+            content: (
+              <>
+                Visit the
+                {' '}
+                <A
+                  href="https://www.planet.com/nicfi/"
+                  target="__BLANK"
+                  rel="noreferrer noopener"
+                >
+                  Planet website
+                </A>
+                {' '}
+                to register for a free account and to download mosaics
+              </>
+            ),
+            actions: {
+              onClose: () => {
+                localStorage.setItem('seenPlanetPrompt', true);
+                this.resetPrompts();
+              },
+            },
+          },
+        ],
+        settings: {
+          disableOverlay: true,
+        },
+      },
       mapTour: {
         title: 'Map tour',
         steps: [
@@ -574,6 +620,7 @@ MapPromptsContainer.propTypes = {
   mapZoom: PropTypes.number,
   recentActive: PropTypes.bool,
   showPrompts: PropTypes.bool,
+  shouldShowPlanetPrompt: PropTypes.bool,
   activeCategories: PropTypes.array,
   datasetIds: PropTypes.array,
   setAnalysisView: PropTypes.func,

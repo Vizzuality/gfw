@@ -14,7 +14,7 @@ class PromptTour extends PureComponent {
       handleStateChange,
       settings,
       showPrompts,
-      handleShowPrompts
+      handleShowPrompts,
     } = this.props;
 
     return (
@@ -23,7 +23,7 @@ class PromptTour extends PureComponent {
         run={open}
         stepIndex={stepIndex}
         continuous
-        callback={data => {
+        callback={(data) => {
           const { action, index, type, status, step } = data;
           const { actions, delay: actionDelay } = step || {};
           const { prev, next } = actions || {};
@@ -34,13 +34,16 @@ class PromptTour extends PureComponent {
           } else if (data.action === 'close' || data.type === 'tour:end') {
             handleStateChange({
               stepIndex: 0,
-              open: false
+              open: false,
             });
+            if (step?.actions?.onClose) {
+              step.actions.onClose();
+            }
           } else if (
             [
               EVENTS.STEP_AFTER,
               EVENTS.TARGET_NOT_FOUND,
-              EVENTS.TOUR_START
+              EVENTS.TOUR_START,
             ].includes(type)
           ) {
             const newStepIndex = index + (action === ACTIONS.PREV ? -1 : 1);
@@ -69,14 +72,14 @@ class PromptTour extends PureComponent {
             if (action === 'prev' || action === 'next') {
               setTimeout(() => {
                 handleStateChange({
-                  stepIndex: newStepIndex
+                  stepIndex: newStepIndex,
                 });
               }, delay);
             }
           }
         }}
         spotlightPadding={0}
-        tooltipComponent={step => (
+        tooltipComponent={(step) => (
           <PromptTooltip
             {...step}
             title={title}
@@ -88,8 +91,8 @@ class PromptTour extends PureComponent {
           options: {
             overlayColor: 'rgba(17, 55, 80, 0.4)',
             zIndex: 10000,
-            arrowColor: '#333'
-          }
+            arrowColor: '#333',
+          },
         }}
         {...settings}
       />
@@ -107,7 +110,7 @@ PromptTour.propTypes = {
   settings: PropTypes.object,
   showPrompts: PropTypes.bool,
   handleShowPrompts: PropTypes.func,
-  initAction: PropTypes.func
+  initAction: PropTypes.func,
 };
 
 export default PromptTour;

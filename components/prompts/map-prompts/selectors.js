@@ -6,6 +6,16 @@ import { getMapZoom, getActiveDatasets } from 'components/map/selectors';
 import { getShowRecentImagery } from 'layouts/map/selectors';
 
 const getMapPromptsSettings = (state) => state.mapPrompts?.settings || {};
+
+const shouldShowPlanetPrompt = (state) => {
+  const isPlanet = state.map?.settings?.basemap?.value === 'planet';
+  const hasSeen = JSON.parse(localStorage.getItem('seenPlanetPrompt'));
+  if (!hasSeen && isPlanet) {
+    return true;
+  }
+  return false;
+};
+
 export const selectShowMapPrompts = (state) =>
   state.mapPrompts && state.mapPrompts.showPrompts;
 
@@ -43,4 +53,5 @@ export const getMapPromptsProps = createStructuredSelector({
   showPrompts: selectShowMapPrompts,
   activeCategories: getDatasetCategories,
   datasetIds: getDatasetIds,
+  shouldShowPlanetPrompt,
 });
