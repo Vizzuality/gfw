@@ -16,7 +16,6 @@ import gladRanked from 'components/widgets/forest-change/glad-ranked';
 import gladAlertsSimple from 'components/widgets/forest-change/glad-alerts-simple';
 
 // fires
-import firesOTF from 'components/widgets/fires/fires';
 import firesAlerts from 'components/widgets/fires/fires-alerts';
 import burnedAreaCumulative from 'components/widgets/fires/burned-area-cumulative';
 import burnedAreaRanked from 'components/widgets/fires/burned-area-ranked';
@@ -74,7 +73,6 @@ export default {
   burnedAreaRanked,
   firesAlertsHistorical,
   firesAlertsHistoricalDaily,
-  firesOTF,
   firesAlertsSimple,
 
   // land cover

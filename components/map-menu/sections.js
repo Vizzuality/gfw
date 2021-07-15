@@ -111,7 +111,7 @@ export const datasetsSections = compact([
       },
       {
         slug: 'fireAlerts',
-        title: 'Fire Alerts',
+        title: 'Fires',
       },
       {
         slug: 'treeCoverChange',

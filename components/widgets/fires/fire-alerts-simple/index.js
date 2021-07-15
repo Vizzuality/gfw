@@ -12,11 +12,11 @@ import {
 
 import { isMapPage } from 'utils/location';
 
-// function for OTF analysis
-import { fetchAnalysisEndpoint } from 'services/analysis';
-
 // function for retreiving glad alerts from tables
-import { fetchVIIRSAlertsSum } from 'services/analysis-cached';
+import {
+  fetchVIIRSAlertsSum,
+  fetchVIIRSAlertsSumOTF,
+} from 'services/analysis-cached';
 
 import { shouldQueryPrecomputedTables } from 'components/widgets/utils/helpers';
 
@@ -38,7 +38,7 @@ export default {
   chartType: 'pieChart',
   dataType: 'fires',
   categories: ['summary', 'fires'],
-  types: ['country', 'wdpa', 'aoi', 'use'],
+  types: ['geostore', 'country', 'wdpa', 'aoi', 'use'],
   admins: ['adm0', 'adm1', 'adm2'],
   adm0: [
     'AFG',
@@ -345,17 +345,17 @@ export default {
         return data;
       });
     }
-    return fetchAnalysisEndpoint({
+    const geostoreId = params?.geostore?.hash;
+    return fetchVIIRSAlertsSumOTF({
       ...params,
-      params,
-      name: 'viirs-alerts',
-      slug: 'viirs-active-fires',
-      version: 'v1',
-      aggregate: true,
-      aggregateBy: 'day',
+      geostoreId,
+      staticStatement: {
+        // append: true, If active, we will utalise the old location select logic with our statement
+        statement: 'alert__date',
+        table: 'nasa_viirs_fire_alerts',
+      },
     }).then((alertsResponse) => {
-      const alerts = alertsResponse.data.data.attributes.value;
-      const { downloadUrls } = alertsResponse.data.data.attributes;
+      const alerts = alertsResponse.data.data;
       return {
         alerts:
           alerts &&
@@ -363,7 +363,6 @@ export default {
             ...d,
             alerts: d.count,
           })),
-        downloadUrls,
       };
     });
   },

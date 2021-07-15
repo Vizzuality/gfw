@@ -51,6 +51,7 @@ const SQL_QUERIES = {
     'SELECT {select_location}, alert__week, alert__year, SUM(alert__count) AS alert__count, confidence__cat FROM data {WHERE} AND alert__year >= {alert__year} AND alert__week >= 1 GROUP BY alert__year, alert__week ORDER BY alert__week DESC, alert__year DESC',
   firesDailySum: `SELECT {select_location}, confidence__cat, SUM(alert__count) AS alert__count FROM data {WHERE} AND alert__date >= '{startDate}' AND alert__date <= '{endDate}' GROUP BY {location}, confidence__cat`,
   firesDailyDownload: `SELECT {select_location}, confidence__cat, SUM(alert__count) AS alert__count FROM data WHERE alert__date >= '{startDate}' AND alert__date <= '{endDate}' GROUP BY {location}, confidence__cat`,
+  firesDailySumOTF: `SELECT SUM(alert__count) AS alert__count, confidence__cat FROM data WHERE alert__date >= '{startDate}' AND alert__date <= '{endDate}' GROUP BY confidence__cat&geostore_id={geostoreId}&geostore_origin=rw`,
   nonGlobalDatasets:
     'SELECT {polynames} FROM polyname_whitelist WHERE iso is null AND adm1 is null AND adm2 is null',
   getLocationPolynameWhitelist:
@@ -1398,6 +1399,29 @@ export const fetchMODISLatest = () =>
     .catch(() => ({
       date: moment().utc().subtract('weeks', 2).format('YYYY-MM-DD'),
     }));
+
+export const fetchVIIRSAlertsSumOTF = (params) => {
+  const { startDate, endDate, geostoreId } = params || {};
+  const url = encodeURI(
+    `${getRequestUrl({
+      ...params,
+    })}${SQL_QUERIES.firesDailySumOTF}`
+      .replace('{startDate}', startDate)
+      .replace('{endDate}', endDate)
+      .replace('{geostoreId}', geostoreId)
+  );
+
+  return apiRequest.get(url).then((response) => ({
+    data: {
+      data: response.data.data.map((d) => ({
+        ...d,
+        confirmed: d.confidence__cat.includes('h'),
+        count: d.alert__count,
+        alerts: d.alert__count,
+      })),
+    },
+  }));
+};
 
 export const fetchVIIRSAlertsSum = (params) => {
   const { startDate, endDate, download, dataset } = params || {};

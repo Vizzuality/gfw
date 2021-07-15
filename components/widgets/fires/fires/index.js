@@ -17,7 +17,7 @@ export default {
   title: 'Fires in {location}',
   categories: ['forest-change', 'summary'],
   admins: ['adm0', 'adm1', 'adm2'],
-  types: ['geostore', 'use'],
+  types: [],
   metaKey: 'widget_fire_alert_location',
   type: 'fires',
   colors: 'fires',
