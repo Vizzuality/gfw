@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatNumber } from 'utils/format';
-import bbox from 'turf-bbox';
 
 import Button from 'components/ui/button';
 
@@ -29,7 +28,6 @@ const renderString = ({ suffix, type, linkText, value }) => {
 
 const DataTable = ({
   data,
-  selected,
   zoomToShape,
   onAnalyze,
   onClose,
@@ -71,12 +69,12 @@ const DataTable = ({
       {!isPoint && zoomToShape && (
         <Button
           onClick={() => {
-            const newBbox = selected && bbox(selected?.geometry);
-            setMapSettings({ canBound: true, bbox: newBbox });
+            setMainMapSettings({ showAnalysis: true });
+            onAnalyze();
             onClose();
           }}
         >
-          Zoom
+          analyze
         </Button>
       )}
       {!isPoint && !zoomToShape && <Button onClick={onAnalyze}>analyze</Button>}
@@ -86,7 +84,6 @@ const DataTable = ({
 
 DataTable.propTypes = {
   data: PropTypes.array,
-  selected: PropTypes.object,
   zoomToShape: PropTypes.bool,
   isPoint: PropTypes.bool,
   onClose: PropTypes.func,
